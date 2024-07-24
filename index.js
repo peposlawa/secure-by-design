@@ -3,15 +3,14 @@ import helmet from "helmet";
 import dataJson from "./data.json" with { type: "json" } ;
 
 
+
 const app = express();
 app.use(helmet());
 const port = 3000;
 
-app.get('/', async(req, res) => {
+app.get('/', (req, res) => {
 try{
-const response = await dataJson;
-    
-res.status(200).send(response)
+res.status(200).send(dataJson)
 
 }catch(error){
     if (error.message.includes('No valid data ')) {
