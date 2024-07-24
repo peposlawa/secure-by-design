@@ -53,7 +53,7 @@ app.post('/activities', (req, res) => {
 
     return res.status(200).send({
       error: false,
-      data: newActivity,
+      data: activity,
     });
 });
 
