@@ -4,14 +4,10 @@
     "userName": "Kieran",
     "data": [
       {
-        "id": "54321234",
-        "activity_submitted": "1719486190058",
         "activity_type": "running",
         "activity_duration": "30"
       },
       {
-        "id": "54321234",
-        "activity_submitted": "1719486190058",
         "activity_type": "swimming",
         "activity_duration": "30"
       }
@@ -23,8 +19,6 @@
     "userName": "Kiran",
     "data": [
       {
-        "id": "54321234",
-        "activity_submitted": "1719486190058",
         "activity_type": "walking",
         "activity_duration": "30"
       }
@@ -36,20 +30,15 @@
     "userName": "Paulina",
     "data": [
       {
-        "id": "54321234",
-        "activity_submitted": "1719486190058",
         "activity_type": "cycling",
         "activity_duration": "30"
       },
       {
-        "id": "54321234",
-        "activity_submitted": "1719486190058",
         "activity_type": "body pump",
         "activity_duration": "30"
       },
       {
         "id": "54321234",
-        "activity_submitted": "1719486190058",
         "activity_type": "zumba",
         "activity_duration": "30"
       }
