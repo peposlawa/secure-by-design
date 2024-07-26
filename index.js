@@ -39,7 +39,8 @@ app.get('/activities', (req, res) => {
       error: false,
       data: responseData,
     });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error processing request:', error);
     return res.status(500).send({
       error: true,
@@ -66,35 +67,6 @@ app.get('/:user_id', (req, res) => {
     data: user.data.map(activity => ({
       ...activity,
       activity_submitted: activity.activity_submitted || Date.now()  // Ensure timestamp is there
-    }))
-  };
-
-  return res.status(200).send({
-    error: false,
-    data: responseData,
-  });
-});
-
-
-// GET user by user_id
-app.get('/:user_id', (req, res) => {
-  const userId = req.params.user_id;
-  const user = dataJson.find(user => user.user_id === userId);
-
-  if (!user) {
-    return res.status(404).send({
-      error: true,
-      data: 'User not found',
-    });
-  }
-
-  const responseData = {
-    user_id: user.user_id,
-    userName: user.userName,
-    data: user.data.map(activity => ({
-      ...activity,
-      id: activity.id || uuidv4(),  // Generate a new UUID if not present
-      activity_submitted: activity.activity_submitted || Date.now()  // Use current timestamp if not present
     }))
   };
 
@@ -175,7 +147,6 @@ app.post('/activities', (req, res) => {
   });
 });
 
-
 // PUT a new activity
 app.put('/activities', (req, res) => {
   try {
@@ -242,6 +213,53 @@ app.put('/activities', (req, res) => {
     });
   }
 });
+
+// app.delete('/activities/activity_id', (req, res)=>{
+
+
+// })
+// DELETE an activity by URL parameter
+app.delete('/activities/:activity_id', (req, res) => {
+  const { user_id } = req.body; // Extract user_id from request body
+  const { activity_id } = req.params; // Extract activity_id from URL parameters
+
+  if (!user_id || !activity_id) {
+    return res.status(400).send({
+      error: true,
+      data: 'Please provide both user_id and activity_id',
+    });
+  }
+
+  // Find the user by user_id
+  const user = dataJson.find(user => user.user_id === user_id);
+
+  if (!user) {
+    return res.status(404).send({
+      error: true,
+      data: 'User not found',
+    });
+  }
+
+  // Find the index of the activity to delete
+  const activityIndex = user.data.findIndex(activity => activity.id === activity_id);
+
+  if (activityIndex === -1) {
+    return res.status(404).send({
+      error: true,
+      data: 'Activity not found',
+    });
+  }
+
+  // Remove the activity from the user's activities
+  user.data.splice(activityIndex, 1);
+
+  return res.status(200).send({
+    error: false,
+    data: 'Activity deleted successfully',
+  });
+});
+
+
 
 // Start the server
 app.listen(port, () => {
