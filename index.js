@@ -19,7 +19,6 @@ app.get('/',(req, res)=>{
 // GET all activities
 app.get('/activities', (req, res) => {
   try {
-    // Ensure dataJson is an array
     if (!Array.isArray(dataJson)) {
       return res.status(500).send({
         error: true,
@@ -33,13 +32,12 @@ app.get('/activities', (req, res) => {
       userName: user.userName,
       data: user.data.map(activity => ({
         ...activity,
-        id: activity.id || uuidv4(),  // Generate a new UUID if not present
-        activity_submitted: activity.activity_submitted || Date.now()  // Use current timestamp if not present
+        activity_submitted: activity.activity_submitted || Date.now()  // Ensure timestamp is there
       }))
     }));
     return res.status(200).send({
       error: false,
-      data: responseData,  // Return the modified data
+      data: responseData,
     });
   } catch (error) {
     console.error('Error processing request:', error);
@@ -49,6 +47,34 @@ app.get('/activities', (req, res) => {
     });
   }
 });
+
+// GET user by user_id
+app.get('/:user_id', (req, res) => {
+  const userId = req.params.user_id;
+  const user = dataJson.find(user => user.user_id === userId);
+
+  if (!user) {
+    return res.status(404).send({
+      error: true,
+      data: 'User not found',
+    });
+  }
+
+  const responseData = {
+    user_id: user.user_id,
+    userName: user.userName,
+    data: user.data.map(activity => ({
+      ...activity,
+      activity_submitted: activity.activity_submitted || Date.now()  // Ensure timestamp is there
+    }))
+  };
+
+  return res.status(200).send({
+    error: false,
+    data: responseData,
+  });
+});
+
 
 // GET user by user_id
 app.get('/:user_id', (req, res) => {
@@ -151,57 +177,6 @@ app.post('/activities', (req, res) => {
 
 
 // PUT a new activity
-// app.put('/activities', (req, res)=>{
-// try{
-//   const newActivity = req.body;
-
-//   console.log('Received new activity:', newActivity);
-
-//   if (!newActivity || !newActivity.user_id || !newActivity.activity_type || !newActivity.activity_duration) {
-//     return res.status(400).send({
-//       error: true,
-//       data: 'Please provide all required fields: user_id, activity_type, and activity_duration',
-//     });
-// }
-// // Ensure user_id is treated as a string
-
-// const userId = newActivity.user_id.toString();
-
-//  // Log all user IDs for debugging
-// //  dataJson.forEach(user => console.log('Existing user_id:', user.user_id));
- 
-//  const user = dataJson.find(user => user.user_id === newActivity.userId)
-
-//   if(!user){
-//     return res.status(404).send({
-//        error: true,
-//        data: 'User not found',
-//      });
-    
-//      }
-
-//   const activity = {
-//     id: uuidv4(),
-//     activity_submitted: time.now(),
-//     activity_type: newActivity.activity_type,
-//     activity_duration: newActivity.activity_duration
-
-//   }
-//   user.data.push(activity);
-
-//   res.status(200).send({
-//   error: false,
-//   data: activity
-// });
-// }catch(error){
-
-//   res.status(500).send({
-//     error: true,
-//     data: 'An unexpected error occurred',
-//   });
-
-// }
-// });
 app.put('/activities', (req, res) => {
   try {
     const newActivity = req.body;
