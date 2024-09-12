@@ -1,13 +1,12 @@
 {
-    "extends": "next/core-web-vitals",
-    "rules": {
-      "no-unused-vars": "error",
-      "no-console": "warn",
-      "no-alert": "error",
-      "no-debugger": "error",
-      "no-var": "error",
-      "prefer-const": "error",
-      "no-const-assign": "error"
-    }
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-unused-vars": "error",
+    "no-console": "warn",
+    "no-alert": "error",
+    "no-debugger": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-const-assign": "error"
   }
-  
+}
