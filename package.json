@@ -9,7 +9,8 @@
     "start": "node index.js",
     "dev": "nodemon bin/www.js",
     "prepare": "husky",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write .",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
